@@ -1,0 +1,17 @@
+.temp 25
+.include C:\Users\hp\Desktop\IC\Tools\Project\22nm_HP.pm
+.param VDD=1.0
+.ic v(Q)=0 v(QB)={VDD}
+VDD vdd 0 DC {VDD}
+VCK CK 0 PWL 0n 0 30n 0 100n {VDD}
+VA A 0 PWL 0n 0 20n {VDD} 100n {VDD}
+Cq  Q  0 20f
+Cqb QB 0 20f
+.tran 0 0.6u 0 0.1n
+.measure tran tPHL_Q TRIG v(CK) VAL='{VDD/2}' RISE=1 TARG v(Q) VAL='{VDD/2}' FALL=1
+.measure tran tPLH_Q TRIG v(CK) VAL='{VDD/2}' RISE=1 TARG v(Q) VAL='{VDD/2}' RISE=1
+.measure tran tr_Q   TRIG v(Q)  VAL='{0.1*VDD}' RISE=1 TARG v(Q) VAL='{0.9*VDD}' RISE=1
+.measure tran tf_Q   TRIG v(Q)  VAL='{0.9*VDD}' FALL=1 TARG v(Q) VAL='{0.1*VDD}' FALL=1
+.measure tran Iavg_VDD AVG I(VDD) FROM=0n TO=0.6u
+.measure tran Pavg PARAM='-VDD*Iavg_VDD'
+.end
